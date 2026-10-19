@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UICanary — The persistent visual QA layer for AI-shipped UI</title>
+<meta name="description" content="Your AI agent has eyes now. Give it a memory. UICanary is the persistent visual QA layer for AI-shipped UI: baselines across every branch, multi-viewport diffs on every PR. No screenshot quotas.">
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#ffffff;
+    --dark:#0b1220; --dark2:#111a2e; --canary:#f5b800; --canary-d:#d9a400;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+  /* nav */
+  nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+  .logo{font-weight:800; font-size:20px; letter-spacing:-.5px; text-decoration:none; color:var(--ink)}
+  .logo span{color:var(--canary-d)}
+  .logo small{display:block; font-size:11px; font-weight:500; color:var(--muted); letter-spacing:0}
+  .nav-links{display:flex; gap:22px; align-items:center}
+  .nav-links a{color:var(--muted); text-decoration:none; font-size:14px; font-weight:500}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block; background:var(--canary); color:#1a1a1a; font-weight:700; padding:12px 26px; border-radius:10px; text-decoration:none; font-size:15px; border:none; cursor:pointer; transition:transform .08s ease, background .15s}
+  .btn:hover{background:var(--canary-d); transform:translateY(-1px)}
+  .btn-sm{padding:9px 18px; font-size:14px}
+  .btn-ghost{background:transparent; color:inherit; border:1px solid var(--line)}
+  .btn-ghost:hover{background:#f8fafc}
+  .dark .btn-ghost{border-color:#334155; color:#e2e8f0}
+  .dark .btn-ghost:hover{background:#1e293b}
+  /* hero */
+  .hero{background:var(--dark); color:#f1f5f9; padding:96px 0 80px; position:relative; overflow:hidden}
+  .hero::before{content:""; position:absolute; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle, rgba(245,184,0,.14), transparent 70%); top:-160px; right:-120px}
+  .eyebrow{display:inline-block; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--canary); margin-bottom:18px}
+  .hero h1{font-size:52px; line-height:1.12; letter-spacing:-1.5px; max-width:760px; margin-bottom:20px}
+  .hero p.sub{font-size:19px; color:#94a3b8; max-width:700px; margin-bottom:34px}
+  .hero p.sub strong{color:#e2e8f0}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:14px}
+  .micro{font-size:13px; color:#64748b}
+  .demo{margin-top:48px; border:1px dashed #334155; border-radius:var(--radius); padding:56px 24px; text-align:center; color:#64748b; background:var(--dark2)}
+  .demo b{color:#94a3b8}
+  /* sections */
+  section{padding:84px 0}
+  section.alt{background:#f8fafc}
+  h2.sec{font-size:34px; letter-spacing:-1px; margin-bottom:12px; text-align:center}
+  p.lead{text-align:center; color:var(--muted); max-width:640px; margin:0 auto 48px; font-size:17px}
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+  .card{border:1px solid var(--line); border-radius:var(--radius); padding:28px; background:#fff}
+  .card h3{font-size:18px; margin-bottom:10px}
+  .card p{color:var(--muted); font-size:15px}
+  .card .icon{font-size:26px; margin-bottom:12px}
+  /* table */
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:#fff}
+  table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:760px}
+  th,td{padding:14px 18px; text-align:left; border-bottom:1px solid var(--line)}
+  th{background:#f8fafc; font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:600}
+  .yes{color:#15803d; font-weight:700}
+  .honest{margin-top:18px; background:#fffbeb; border:1px solid #fde68a; border-radius:var(--radius); padding:18px 22px; font-size:15px; color:#92400e}
+  /* steps */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:28px}
+  .step{border:1px solid var(--line); border-radius:var(--radius); padding:28px; background:#fff; position:relative}
+  .step .n{display:inline-flex; width:34px; height:34px; border-radius:50%; background:var(--dark); color:#fff; font-weight:800; align-items:center; justify-content:center; margin-bottom:14px}
+  .step h3{font-size:17px; margin-bottom:8px}
+  .step p{color:var(--muted); font-size:15px}
+  pre{background:var(--dark); color:#e2e8f0; border-radius:var(--radius); padding:24px; overflow-x:auto; font-size:13.5px; line-height:1.7; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .c-k{color:#7dd3fc}.c-s{color:#fcd34d}.c-c{color:#64748b}
+  /* features */
+  .feats{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+  /* pricing */
+  .plans{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:stretch}
+  .plan{border:1px solid var(--line); border-radius:var(--radius); padding:32px 28px; background:#fff; display:flex; flex-direction:column}
+  .plan.hot{border:2px solid var(--canary); box-shadow:0 12px 40px rgba(245,184,0,.15); position:relative}
+  .plan .tag{position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--canary); font-size:12px; font-weight:800; padding:4px 14px; border-radius:20px; white-space:nowrap}
+  .plan h3{font-size:18px; margin-bottom:6px}
+  .plan .price{font-size:38px; font-weight:800; letter-spacing:-1px; margin:8px 0}
+  .plan .price small{font-size:15px; font-weight:500; color:var(--muted)}
+  .plan ul{list-style:none; margin:18px 0 26px; flex:1}
+  .plan li{padding:7px 0; font-size:14.5px; color:var(--muted); border-bottom:1px dashed var(--line)}
+  .plan li:last-child{border-bottom:none}
+  .plan li::before{content:"✓ "; color:#15803d; font-weight:700}
+  .plan .note{font-size:13px; color:var(--muted); margin-top:12px}
+  /* faq */
+  .faq{max-width:760px; margin:0 auto}
+  .qa{border:1px solid var(--line); border-radius:12px; margin-bottom:12px; background:#fff; overflow:hidden}
+  .qa button{width:100%; text-align:left; background:none; border:none; padding:20px 22px; font-size:16px; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center; color:var(--ink)}
+  .qa button span{color:var(--muted); font-size:20px; transition:transform .2s}
+  .qa.open button span{transform:rotate(45deg)}
+  .qa .a{display:none; padding:0 22px 22px; color:var(--muted); font-size:15px}
+  .qa.open .a{display:block}
+  /* final cta + footer */
+  .final{background:var(--dark); color:#f1f5f9; text-align:center; padding:96px 0}
+  .final h2{font-size:42px; letter-spacing:-1px; margin-bottom:14px}
+  .final p{color:#94a3b8; margin-bottom:32px; font-size:17px}
+  footer{padding:36px 0; border-top:1px solid var(--line); color:var(--muted); font-size:13.5px}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px}
+  /* waitlist */
+  .waitlist{max-width:520px; margin:0 auto; text-align:center}
+  .waitlist form{display:flex; gap:10px; margin-top:20px}
+  .waitlist input{flex:1; padding:13px 16px; border:1px solid var(--line); border-radius:10px; font-size:15px}
+  @media(max-width:820px){
+    .cards,.steps,.feats,.plans{grid-template-columns:1fr}
+    .hero h1{font-size:36px}
+    h2.sec{font-size:27px}
+    .nav-links a:not(.btn){display:none}
+    .waitlist form{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">UI<span>Canary</span><small>The canary for your UI.</small></a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#compare">Compare</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <!-- Presale link live (Creem) -->
+      <a class="btn btn-sm" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Lock in $19/mo</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero dark">
+  <div class="wrap">
+    <span class="eyebrow">The persistent visual QA layer for AI-shipped UI</span>
+    <h1>Catch the layout your agent broke<br>while fixing something else.</h1>
+    <p class="sub">Your agent reordered a sidebar — and quietly broke the checkout page on mobile. Agent screenshot checks verify one change, then forget it. <strong>UICanary is the memory layer underneath:</strong> baselines across every branch, diffs grouped by PR, desktop + mobile in one run. And no screenshot quotas: Percy's 5,000 free screenshots are gone by week two at 10 PRs a day × 5 pages × 3 viewports.</p>
+    <div class="cta-row">
+      <!-- Presale link live (Creem) -->
+      <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Lock in $19/mo for life — $1 presale</a>
+      <a class="btn btn-ghost" href="#waitlist">Start free · 1,000 screenshots/mo</a>
+    </div>
+    <p class="micro">$1 is a fully refundable deposit · No credit card for the free tier · Cancel anytime</p>
+    <div class="demo" style="padding:0;border:none;background:transparent">
+      <div style="display:inline-block;background:#f5b800;color:#1a1a1a;font-weight:800;font-size:13px;letter-spacing:1.5px;padding:7px 18px;border-radius:20px;margin-bottom:14px">PRESALE — PRODUCT IN DEVELOPMENT</div>
+      <img src="diff-mock.png" alt="UICanary diff review UI — concept mock (presale, product in development)" style="width:100%;border-radius:14px;border:1px solid #334155;display:block">
+      <p style="margin-top:12px;font-size:13px">Concept mock of the planned diff review UI. UICanary is currently in presale and under development — the interface above illustrates the vision, not a shipped product.</p>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <h2 class="sec">Screenshots evaporate.<br>Regressions creep back at 2am.</h2>
+    <p class="lead">AI writes UI 10× faster — and ships visual bugs 10× faster too.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Eyes without memory</h3>
+        <p>Your agent can verify what it just built — but what about the next PR? The next branch? The staging deploy at 2am? Screenshots evaporate; regressions creep back in. A one-off check is not a system of record.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🧾</div>
+        <h3>Quotas punish the workflow AI created</h3>
+        <p>Percy's free tier is 5,000 screenshots a month. Ship 10 PRs a day across 5 pages × 3 viewports and you're done by week two. AI assistants made you iterate 10× faster — per-screenshot billing taxes exactly that.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🔊</div>
+        <h3>"Free" costs you in noise</h3>
+        <p>Playwright screenshots plus a loose threshold catch big layout shifts — and drown you in font-rendering and animation false positives. No review UI, no PR comments, no baseline management across branches and OSes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare" class="alt">
+  <div class="wrap">
+    <h2 class="sec">Eyes are free now. Memory isn't.</h2>
+    <p class="lead">Agent skills answer "is this change OK?" — once. UICanary answers "did every release stay correct?" — always.</p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th></th><th>UICanary</th><th>Percy</th><th>Agent skills<br>(ProofShot / pursr)</th><th>Playwright DIY</th></tr>
+        <tr><td>Answers</td><td><b>"Did every release stay correct?"</b></td><td>Same</td><td>"Is this change OK?" (one-off)</td><td>"Here's a PNG, you figure it out"</td></tr>
+        <tr><td>Baselines across branches</td><td class="yes">Yes</td><td class="yes">Yes</td><td>No</td><td>DIY</td></tr>
+        <tr><td>Multi-viewport in one run</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Manual</td><td>DIY</td></tr>
+        <tr><td>Team review workflow</td><td class="yes">Yes</td><td class="yes">Yes</td><td>No</td><td>No</td></tr>
+        <tr><td>Noise management over time</td><td class="yes">Yes</td><td>Partial</td><td>No</td><td>DIY</td></tr>
+        <tr><td>Screenshot quotas</td><td><b>None — pay as you go</b></td><td>Yes</td><td>None</td><td>None</td></tr>
+        <tr><td>Starting price</td><td><b>$19/mo</b> (early bird)</td><td>Free 5k/mo, then quote-based</td><td>Free</td><td>Free</td></tr>
+      </table>
+    </div>
+    <div class="honest"><b>Honest guide:</b> use agent skills when you want a quick check right after the agent writes code — they're free and good at that. Use UICanary when visual correctness has to hold across every PR, branch and release. <span style="color:#b45309">Prices checked Oct 2026; competitors' plans change — verify before you buy.</span></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2 class="sec">Live in 5 minutes</h2>
+    <p class="lead">One line in your workflow. Baselines from the first run.</p>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Add one line to your workflow</h3><p>Paste the Action, add your API key as a secret. Done in 5 minutes.</p></div>
+      <div class="step"><span class="n">2</span><h3>We render every PR across your viewports</h3><p>Desktop, tablet, mobile — baselines stored per branch, history kept.</p></div>
+      <div class="step"><span class="n">3</span><h3>Get a PR comment — and a history you can audit</h3><p>Diffs grouped by what actually changed: review 6 real changes instead of 60 screenshots. See <i>when</i> something broke, not just <i>that</i> it broke.</p></div>
+    </div>
+    <p style="font-size:13.5px;color:#64748b;margin-bottom:10px"><b style="color:#0f172a">Example configuration</b> — presale preview. The API is in development; this snippet is illustrative and subject to change.</p>
+<pre><span class="c-c"># .github/workflows/visual.yml</span>
+<span class="c-c"># Example configuration — presale preview, API in development and subject to change</span>
+- <span class="c-k">name</span>: Visual regression
+  <span class="c-k">uses</span>: <span class="c-s">uicanary/visual-regression@v1</span>
+  <span class="c-k">with</span>:
+    <span class="c-k">api-key</span>: ${{ secrets.UICANARY_API_KEY }}
+    <span class="c-k">viewports</span>: <span class="c-s">"1280x800, 390x844"</span>
+    <span class="c-k">threshold</span>: <span class="c-s">0.1</span></pre>
+  </div>
+</section>
+
+<section id="features" class="alt">
+  <div class="wrap">
+    <h2 class="sec">Built to remember</h2>
+    <p class="lead">Everything a one-off screenshot check can't do.</p>
+    <div class="feats">
+      <div class="card"><h3>🧠 A memory for your UI</h3><p>Baselines stored per branch, with full run history — audit <i>when</i> anything broke, not just <i>that</i> it broke.</p></div>
+      <div class="card"><h3>🗂️ Grouped PR diffs</h3><p>Built for AI-iteration workflows — diffs clustered by what actually changed, so you review 6 real changes instead of 60 screenshots.</p></div>
+      <div class="card"><h3>🔇 Noise-resistant thresholds</h3><p>Per-project tuning for fonts, animations, timestamps and dynamic content — false positives go down over time instead of piling up.</p></div>
+      <div class="card"><h3>📐 Multi-viewport &amp; breakpoints</h3><p>Desktop, tablet, mobile in one run.</p></div>
+      <div class="card"><h3>♾️ No quotas, pay as you go</h3><p>Scale with your PR velocity, not against it.</p></div>
+      <div class="card"><h3>🔐 Your data, your retention</h3><p>Encrypted in transit and at rest; configurable retention; export or delete baselines anytime. Removing us is one line in your workflow file.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2 class="sec">Pricing that scales with you</h2>
+    <p class="lead">Start free. Lock in early-bird pricing for life before launch.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">$0<small>/mo</small></div>
+        <ul>
+          <li>1,000 screenshots / mo</li>
+          <li>1 project</li>
+          <li>7-day baseline retention</li>
+          <li>Community support</li>
+        </ul>
+        <a class="btn btn-ghost" href="#waitlist">Start free</a>
+        <p class="note">Free tier opens at launch — join the waitlist.</p>
+      </div>
+      <div class="plan hot">
+        <span class="tag">EARLY BIRD — $1 PRESALE</span>
+        <h3>Pro</h3>
+        <div class="price">$19<small>/mo, locked for life</small></div>
+        <ul>
+          <li>Unlimited projects</li>
+          <li>Pay-as-you-go screenshots, no quotas</li>
+          <li>Grouped PR diffs + full baseline history</li>
+          <li>Multi-viewport &amp; breakpoints</li>
+          <li>Priority support</li>
+        </ul>
+        <!-- Presale link live (Creem) -->
+        <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Reserve with $1</a>
+        <p class="note">$1 is a fully refundable deposit. If we don't launch, you get it back — no questions asked.</p>
+      </div>
+      <div class="plan">
+        <h3>Pro</h3>
+        <div class="price">$38<small>/mo</small></div>
+        <ul>
+          <li>Everything in Early-bird Pro</li>
+          <li>At the regular price, after launch</li>
+        </ul>
+        <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
+        <p class="note">Launches after the early-bird window closes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="alt">
+  <div class="wrap">
+    <h2 class="sec">FAQ</h2>
+    <p class="lead">Straight answers, no marketing fog.</p>
+    <div class="faq">
+      <div class="qa open">
+        <button>I already use ProofShot / pursr with my agent — why do I need this? <span>+</span></button>
+        <div class="a">They're great at point-in-time verification: "did the agent's last change look right?" UICanary is what runs on every PR in CI, keeps baselines across branches, and gives your team one place to review. Think of it as: the agent skill is eyes, UICanary is memory. If a quick check after each agent run is honestly enough for you, stick with the free tools.</div>
+      </div>
+      <div class="qa">
+        <button>How is this different from Playwright screenshots? <span>+</span></button>
+        <div class="a">Playwright gives you PNGs. UICanary gives you the other 80%: a review UI, PR comments, cross-OS baseline management, and noise thresholds — the parts that take weeks to build yourself and die to maintain.</div>
+      </div>
+      <div class="qa">
+        <button>What counts as one screenshot? <span>+</span></button>
+        <div class="a">One rendered viewport of one URL in one CI run.</div>
+      </div>
+      <div class="qa">
+        <button>Do you store my pages? <span>+</span></button>
+        <div class="a">Screenshots are encrypted in transit and at rest, with configurable retention and one-click delete. We never train models on your UI.</div>
+      </div>
+      <div class="qa">
+        <button>What about false positives? <span>+</span></button>
+        <div class="a">Set per-project thresholds for fonts, animations and timestamps; approve a baseline once and only real changes flag after that.</div>
+      </div>
+      <div class="qa">
+        <button>What if you shut down? <span>+</span></button>
+        <div class="a">Your baselines export as PNGs anytime, and removing the Action is one line in your workflow file. No lock-in by design.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final dark" id="waitlist">
+  <div class="wrap">
+    <h2>Eyes are free now. Memory isn't.</h2>
+    <p>$1 reserves $19/mo for life. Refundable if we don't launch.</p>
+    <!-- Presale link live (Creem) -->
+    <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb" style="font-size:17px; padding:15px 34px;">Lock in $19/mo for life — $1 presale</a>
+    <div class="waitlist" style="margin-top:44px">
+      <p style="font-size:15px">Or join the waitlist for launch updates:</p>
+      <button class="btn" type="button" data-tally-open="gbjrPO" data-tally-layout="modal" data-tally-hide-title="1">Notify me</button>
+    </div>
+  </div>
+</section>
+<script src="https://tally.so/widgets/embed.js"></script>
+
+<footer>
+  <div class="wrap">
+    <span><b style="color:#0f172a">UICanary</b> — The canary for your UI.</span>
+    <span>© 2026 UICanary · <a href="privacy.html" style="color:#64748b">Privacy Policy</a> · <a href="terms.html" style="color:#64748b">Terms of Service</a> · <a href="mailto:zyy@xingqingnet.com" style="color:#64748b">zyy@xingqingnet.com</a></span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.qa button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var item = btn.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.qa').forEach(function(q){ q.classList.remove('open'); });
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
