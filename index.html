@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UICanary — The persistent visual QA layer for AI-shipped UI</title>
-<meta name="description" content="Your AI agent has eyes now. Give it a memory. UICanary is the persistent visual QA layer for AI-shipped UI: baselines across every branch, multi-viewport diffs on every PR. No screenshot quotas.">
+<meta name="description" content="Presale for UICanary, a planned visual QA layer for AI-shipped UI. A $1 refundable deposit locks Early bird at $19/mo for life. Pro is $38/mo. The free tier (1,000 screenshots/mo) is planned, not live.">
+<link rel="canonical" href="https://uicanary.xingqingnet.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UICanary">
+<meta property="og:title" content="UICanary — The persistent visual QA layer for AI-shipped UI">
+<meta property="og:description" content="Presale for UICanary, a planned visual QA layer for AI-shipped UI. A $1 refundable deposit locks Early bird at $19/mo for life. Pro is $38/mo. The free tier (1,000 screenshots/mo) is planned, not live.">
+<meta property="og:url" content="https://uicanary.xingqingnet.com/">
+<meta property="og:image" content="https://uicanary.xingqingnet.com/diff-mock.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1862">
+<meta property="og:image:height" content="2124">
+<meta property="og:image:alt" content="Concept mock of the planned UICanary diff review UI. The product is in presale and not launched.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UICanary — The persistent visual QA layer for AI-shipped UI">
+<meta name="twitter:description" content="Presale for UICanary, a planned visual QA layer for AI-shipped UI. A $1 refundable deposit locks Early bird at $19/mo for life. Pro is $38/mo. The free tier (1,000 screenshots/mo) is planned, not live.">
+<meta name="twitter:url" content="https://uicanary.xingqingnet.com/">
+<meta name="twitter:image" content="https://uicanary.xingqingnet.com/diff-mock.png">
+<meta name="twitter:image:alt" content="Concept mock of the planned UICanary diff review UI. The product is in presale and not launched.">
 <style>
   :root{
     --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#ffffff;
@@ -123,7 +140,7 @@
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <!-- Presale link live (Creem) -->
-      <a class="btn btn-sm" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Lock in $19/mo</a>
+      <a class="btn btn-sm" id="presale-cta-nav" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Reserve early bird — $1</a>
     </div>
   </div>
 </nav>
@@ -132,13 +149,13 @@
   <div class="wrap">
     <span class="eyebrow">The persistent visual QA layer for AI-shipped UI</span>
     <h1>Catch the layout your agent broke<br>while fixing something else.</h1>
-    <p class="sub">Your agent reordered a sidebar — and quietly broke the checkout page on mobile. Agent screenshot checks verify one change, then forget it. <strong>UICanary is the memory layer underneath:</strong> baselines across every branch, diffs grouped by PR, desktop + mobile in one run. And no screenshot quotas: Percy's 5,000 free screenshots are gone by week two at 10 PRs a day × 5 pages × 3 viewports.</p>
+    <p class="sub">Your agent reordered a sidebar — and quietly broke the checkout page on mobile. Agent screenshot checks verify one change, then forget it. <strong>UICanary is the memory layer we're building underneath:</strong> baselines across every branch, diffs grouped by PR, desktop + mobile in one run. Percy's 5,000 free screenshots are gone by week two at 10 PRs a day × 5 pages × 3 viewports. Ours is a flat monthly price — not per screenshot — with a planned free tier of 1,000/mo.</p>
     <div class="cta-row">
-      <!-- Presale link live (Creem) -->
-      <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Lock in $19/mo for life — $1 presale</a>
-      <a class="btn btn-ghost" href="#waitlist">Start free · 1,000 screenshots/mo</a>
+      <!-- Presale link live (Creem). $1 deposit, not a live subscription. -->
+      <a class="btn" id="presale-cta-hero" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Lock in $19/mo for life — $1 presale</a>
+      <a class="btn btn-ghost" id="waitlist-cta-hero" href="#waitlist">Join the waitlist</a>
     </div>
-    <p class="micro">$1 is a fully refundable deposit · No credit card for the free tier · Cancel anytime</p>
+    <p class="micro">$1 is a fully refundable deposit, not a subscription · Free tier (1,000 screenshots/mo) is planned for launch, not open today</p>
     <div class="demo" style="padding:0;border:none;background:transparent">
       <div style="display:inline-block;background:#f5b800;color:#1a1a1a;font-weight:800;font-size:13px;letter-spacing:1.5px;padding:7px 18px;border-radius:20px;margin-bottom:14px">PRESALE — PRODUCT IN DEVELOPMENT</div>
       <img src="diff-mock.png" alt="UICanary diff review UI — concept mock (presale, product in development)" style="width:100%;border-radius:14px;border:1px solid #334155;display:block">
@@ -174,37 +191,37 @@
 <section id="compare" class="alt">
   <div class="wrap">
     <h2 class="sec">Eyes are free now. Memory isn't.</h2>
-    <p class="lead">Agent skills answer "is this change OK?" — once. UICanary answers "did every release stay correct?" — always.</p>
+    <p class="lead">Agent skills answer "is this change OK?" — once. UICanary is meant to answer "did every release stay correct?" — on every release. That product is not live yet. The UICanary column is the plan.</p>
     <div class="tbl-wrap">
       <table>
-        <tr><th></th><th>UICanary</th><th>Percy</th><th>Agent skills<br>(ProofShot / pursr)</th><th>Playwright DIY</th></tr>
+        <tr><th></th><th>UICanary<br>(planned)</th><th>Percy</th><th>Agent skills<br>(ProofShot / pursr)</th><th>Playwright DIY</th></tr>
         <tr><td>Answers</td><td><b>"Did every release stay correct?"</b></td><td>Same</td><td>"Is this change OK?" (one-off)</td><td>"Here's a PNG, you figure it out"</td></tr>
-        <tr><td>Baselines across branches</td><td class="yes">Yes</td><td class="yes">Yes</td><td>No</td><td>DIY</td></tr>
-        <tr><td>Multi-viewport in one run</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Manual</td><td>DIY</td></tr>
-        <tr><td>Team review workflow</td><td class="yes">Yes</td><td class="yes">Yes</td><td>No</td><td>No</td></tr>
-        <tr><td>Noise management over time</td><td class="yes">Yes</td><td>Partial</td><td>No</td><td>DIY</td></tr>
-        <tr><td>Screenshot quotas</td><td><b>None — pay as you go</b></td><td>Yes</td><td>None</td><td>None</td></tr>
-        <tr><td>Starting price</td><td><b>$19/mo</b> (early bird)</td><td>Free 5k/mo, then quote-based</td><td>Free</td><td>Free</td></tr>
+        <tr><td>Baselines across branches</td><td>Planned</td><td class="yes">Yes</td><td>No</td><td>DIY</td></tr>
+        <tr><td>Multi-viewport in one run</td><td>Planned</td><td class="yes">Yes</td><td>Manual</td><td>DIY</td></tr>
+        <tr><td>Team review workflow</td><td>Planned</td><td class="yes">Yes</td><td>No</td><td>No</td></tr>
+        <tr><td>Noise management over time</td><td>Planned</td><td>Partial</td><td>No</td><td>DIY</td></tr>
+        <tr><td>Screenshot quotas</td><td><b>Free: 1,000/mo. Paid: flat monthly price, no per-screenshot charge</b></td><td>Yes</td><td>None</td><td>None</td></tr>
+        <tr><td>Starting price</td><td><b>Free $0</b> (1,000/mo, planned)<br><b>Early bird $19/mo</b> flat, for life<br><b>Pro $38/mo</b> flat</td><td>Free 5k/mo, then paid plans — verify the current price</td><td>Free</td><td>Free</td></tr>
       </table>
     </div>
-    <div class="honest"><b>Honest guide:</b> use agent skills when you want a quick check right after the agent writes code — they're free and good at that. Use UICanary when visual correctness has to hold across every PR, branch and release. <span style="color:#b45309">Prices checked Oct 2026; competitors' plans change — verify before you buy.</span></div>
+    <div class="honest"><b>Honest guide:</b> use agent skills when you want a quick check right after the agent writes code — they're free and good at that. UICanary is for when visual correctness has to hold across every PR, branch and release — once it exists. Nothing in the UICanary column ships today. <span style="color:#b45309">Prices checked Oct 2026; competitors' plans change — verify before you buy.</span></div>
   </div>
 </section>
 
 <section id="how">
   <div class="wrap">
-    <h2 class="sec">Live in 5 minutes</h2>
-    <p class="lead">One line in your workflow. Baselines from the first run.</p>
+    <h2 class="sec">Planned: about 5 minutes to set up</h2>
+    <p class="lead">One line in your workflow. Baselines from the first run. This flow is the plan — there is no Action to install today.</p>
     <div class="steps">
-      <div class="step"><span class="n">1</span><h3>Add one line to your workflow</h3><p>Paste the Action, add your API key as a secret. Done in 5 minutes.</p></div>
-      <div class="step"><span class="n">2</span><h3>We render every PR across your viewports</h3><p>Desktop, tablet, mobile — baselines stored per branch, history kept.</p></div>
-      <div class="step"><span class="n">3</span><h3>Get a PR comment — and a history you can audit</h3><p>Diffs grouped by what actually changed: review 6 real changes instead of 60 screenshots. See <i>when</i> something broke, not just <i>that</i> it broke.</p></div>
+      <div class="step"><span class="n">1</span><h3>Add one line to your workflow</h3><p>The plan: paste the Action, add your API key as a secret. Setup should take about 5 minutes once it ships.</p></div>
+      <div class="step"><span class="n">2</span><h3>Render every PR across your viewports</h3><p>Planned: desktop, tablet, mobile — baselines stored per branch, history kept.</p></div>
+      <div class="step"><span class="n">3</span><h3>A PR comment, and a history you can audit</h3><p>Planned: diffs grouped by what actually changed, so you review 6 real changes instead of 60 screenshots. See <i>when</i> something broke, not just <i>that</i> it broke.</p></div>
     </div>
-    <p style="font-size:13.5px;color:#64748b;margin-bottom:10px"><b style="color:#0f172a">Example configuration</b> — presale preview. The API is in development; this snippet is illustrative and subject to change.</p>
+    <p style="font-size:13.5px;color:#64748b;margin-bottom:10px"><b style="color:#0f172a">Planned workflow — illustration only.</b> No GitHub Action is published. Do not paste this into a real workflow.</p>
 <pre><span class="c-c"># .github/workflows/visual.yml</span>
-<span class="c-c"># Example configuration — presale preview, API in development and subject to change</span>
+<span class="c-c"># ILLUSTRATION of the planned workflow. This Action is not published and cannot be installed.</span>
 - <span class="c-k">name</span>: Visual regression
-  <span class="c-k">uses</span>: <span class="c-s">uicanary/visual-regression@v1</span>
+  <span class="c-k">uses</span>: <span class="c-s">&lt;NOT-PUBLISHED&gt;/uicanary-action@&lt;placeholder&gt;</span>
   <span class="c-k">with</span>:
     <span class="c-k">api-key</span>: ${{ secrets.UICANARY_API_KEY }}
     <span class="c-k">viewports</span>: <span class="c-s">"1280x800, 390x844"</span>
@@ -215,22 +232,22 @@
 <section id="features" class="alt">
   <div class="wrap">
     <h2 class="sec">Built to remember</h2>
-    <p class="lead">Everything a one-off screenshot check can't do.</p>
+    <p class="lead">What a one-off screenshot check can't do. Everything below is planned — none of it is live.</p>
     <div class="feats">
-      <div class="card"><h3>🧠 A memory for your UI</h3><p>Baselines stored per branch, with full run history — audit <i>when</i> anything broke, not just <i>that</i> it broke.</p></div>
-      <div class="card"><h3>🗂️ Grouped PR diffs</h3><p>Built for AI-iteration workflows — diffs clustered by what actually changed, so you review 6 real changes instead of 60 screenshots.</p></div>
-      <div class="card"><h3>🔇 Noise-resistant thresholds</h3><p>Per-project tuning for fonts, animations, timestamps and dynamic content — false positives go down over time instead of piling up.</p></div>
-      <div class="card"><h3>📐 Multi-viewport &amp; breakpoints</h3><p>Desktop, tablet, mobile in one run.</p></div>
-      <div class="card"><h3>♾️ No quotas, pay as you go</h3><p>Scale with your PR velocity, not against it.</p></div>
-      <div class="card"><h3>🔐 Your data, your retention</h3><p>Encrypted in transit and at rest; configurable retention; export or delete baselines anytime. Removing us is one line in your workflow file.</p></div>
+      <div class="card"><h3>🧠 A memory for your UI</h3><p>Planned: baselines stored per branch, with run history, so you can audit <i>when</i> anything broke, not just <i>that</i> it broke.</p></div>
+      <div class="card"><h3>🗂️ Grouped PR diffs</h3><p>Planned for AI-iteration workflows — diffs clustered by what actually changed, so you review 6 real changes instead of 60 screenshots.</p></div>
+      <div class="card"><h3>🔇 Noise-resistant thresholds</h3><p>Planned: per-project tuning for fonts, animations, timestamps and dynamic content, so false positives go down over time instead of piling up.</p></div>
+      <div class="card"><h3>📐 Multi-viewport &amp; breakpoints</h3><p>Planned: desktop, tablet and mobile in one run.</p></div>
+      <div class="card"><h3>💵 A flat monthly price</h3><p>Early bird is $19/mo. Pro is $38/mo. Neither is billed per screenshot. The planned free tier is 1,000 screenshots/mo.</p></div>
+      <div class="card"><h3>🔐 Your data, your retention</h3><p>Design commitment, not a control you can use today: encrypt screenshots in transit and at rest, let you set retention, and let you export or delete baselines. Removing the Action should be one line in your workflow file.</p></div>
     </div>
   </div>
 </section>
 
 <section id="pricing">
   <div class="wrap">
-    <h2 class="sec">Pricing that scales with you</h2>
-    <p class="lead">Start free. Lock in early-bird pricing for life before launch.</p>
+    <h2 class="sec">Flat monthly pricing</h2>
+    <p class="lead">Three prices, no per-screenshot meter. Free is planned for launch. Early bird is the $1 presale. Pro is the regular price later. Same planned product — different price and timing.</p>
     <div class="plans">
       <div class="plan">
         <h3>Free</h3>
@@ -241,33 +258,34 @@
           <li>7-day baseline retention</li>
           <li>Community support</li>
         </ul>
-        <a class="btn btn-ghost" href="#waitlist">Start free</a>
-        <p class="note">Free tier opens at launch — join the waitlist.</p>
+        <a class="btn btn-ghost" id="waitlist-cta-free" href="#waitlist">Join the waitlist</a>
+        <p class="note">Planned for launch — not usable today. This button joins the waitlist. It does not start a free account.</p>
       </div>
       <div class="plan hot">
-        <span class="tag">EARLY BIRD — $1 PRESALE</span>
-        <h3>Pro</h3>
+        <span class="tag">$1 PRESALE</span>
+        <h3>Early bird</h3>
         <div class="price">$19<small>/mo, locked for life</small></div>
         <ul>
-          <li>Unlimited projects</li>
-          <li>Pay-as-you-go screenshots, no quotas</li>
-          <li>Grouped PR diffs + full baseline history</li>
-          <li>Multi-viewport &amp; breakpoints</li>
-          <li>Priority support</li>
+          <li>Flat $19/mo — screenshots are not billed on top</li>
+          <li>Unlimited projects (planned)</li>
+          <li>Grouped PR diffs + baseline history (planned)</li>
+          <li>Multi-viewport &amp; breakpoints (planned)</li>
+          <li>Priority support (planned)</li>
         </ul>
-        <!-- Presale link live (Creem) -->
-        <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Reserve with $1</a>
-        <p class="note">$1 is a fully refundable deposit. If we don't launch, you get it back — no questions asked.</p>
+        <!-- Presale link live (Creem). Charges $1 today, not $19. -->
+        <a class="btn" id="presale-cta-pricing" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb">Reserve early bird for $1</a>
+        <p class="note">$1 is a fully refundable deposit, not a subscription. If we don't launch, you get it back — no questions asked. The $19/mo price starts only if the product launches.</p>
       </div>
       <div class="plan">
         <h3>Pro</h3>
         <div class="price">$38<small>/mo</small></div>
         <ul>
-          <li>Everything in Early-bird Pro</li>
-          <li>At the regular price, after launch</li>
+          <li>Flat $38/mo — screenshots are not billed on top</li>
+          <li>Same planned features as Early bird</li>
+          <li>Regular price, after the early-bird window</li>
         </ul>
-        <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
-        <p class="note">Launches after the early-bird window closes.</p>
+        <a class="btn btn-ghost" id="waitlist-cta-pro" href="#waitlist">Join the waitlist</a>
+        <p class="note">Not for sale. Opens after the early-bird window closes. This button joins the waitlist.</p>
       </div>
     </div>
   </div>
@@ -280,27 +298,27 @@
     <div class="faq">
       <div class="qa open">
         <button>I already use ProofShot / pursr with my agent — why do I need this? <span>+</span></button>
-        <div class="a">They're great at point-in-time verification: "did the agent's last change look right?" UICanary is what runs on every PR in CI, keeps baselines across branches, and gives your team one place to review. Think of it as: the agent skill is eyes, UICanary is memory. If a quick check after each agent run is honestly enough for you, stick with the free tools.</div>
+        <div class="a">They're great at point-in-time verification: "did the agent's last change look right?" UICanary is planned to run on every PR in CI, keep baselines across branches, and give a team one place to review. Think of it as: the agent skill is eyes, UICanary is memory. It does not do that yet. If a quick check after each agent run is honestly enough for you, stick with the free tools.</div>
       </div>
       <div class="qa">
         <button>How is this different from Playwright screenshots? <span>+</span></button>
-        <div class="a">Playwright gives you PNGs. UICanary gives you the other 80%: a review UI, PR comments, cross-OS baseline management, and noise thresholds — the parts that take weeks to build yourself and die to maintain.</div>
+        <div class="a">Playwright gives you PNGs. The plan for UICanary is the other 80%: a review UI, PR comments, cross-OS baseline management, and noise thresholds — the parts that take weeks to build yourself and die to maintain. None of that is shipped.</div>
       </div>
       <div class="qa">
         <button>What counts as one screenshot? <span>+</span></button>
-        <div class="a">One rendered viewport of one URL in one CI run.</div>
+        <div class="a">On the planned free tier, one screenshot is one rendered viewport of one URL in one CI run, capped at 1,000 per month. Early bird ($19/mo) and Pro ($38/mo) are flat monthly prices. This page does not add a per-screenshot charge on top of either.</div>
       </div>
       <div class="qa">
         <button>Do you store my pages? <span>+</span></button>
-        <div class="a">Screenshots are encrypted in transit and at rest, with configurable retention and one-click delete. We never train models on your UI.</div>
+        <div class="a">Not today — there is no product storing pages. The design commitment is: encrypt screenshots in transit and at rest, make retention configurable, and let you delete them. We do not plan to train models on your UI. That is an intention for the unreleased product, not a control you can exercise now. The only data this site handles today is what you submit on the waitlist or email us, plus the $1 deposit processed by Creem.</div>
       </div>
       <div class="qa">
         <button>What about false positives? <span>+</span></button>
-        <div class="a">Set per-project thresholds for fonts, animations and timestamps; approve a baseline once and only real changes flag after that.</div>
+        <div class="a">The plan is per-project thresholds for fonts, animations and timestamps: approve a baseline once, and only real changes flag after that. That tuning does not exist yet.</div>
       </div>
       <div class="qa">
         <button>What if you shut down? <span>+</span></button>
-        <div class="a">Your baselines export as PNGs anytime, and removing the Action is one line in your workflow file. No lock-in by design.</div>
+        <div class="a">The design commitment is that baselines can be exported as PNGs, and that removing the Action is one line in your workflow file. Export is not available now, because there is no product and no Action. If we don't launch, the $1 deposit is refunded in full.</div>
       </div>
     </div>
   </div>
@@ -311,10 +329,10 @@
     <h2>Eyes are free now. Memory isn't.</h2>
     <p>$1 reserves $19/mo for life. Refundable if we don't launch.</p>
     <!-- Presale link live (Creem) -->
-    <a class="btn" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb" style="font-size:17px; padding:15px 34px;">Lock in $19/mo for life — $1 presale</a>
+    <a class="btn" id="presale-cta-final" href="https://www.creem.io/payment/prod_2LaIF7nCMYIDCytpw1keyb" style="font-size:17px; padding:15px 34px;">Lock in $19/mo for life — $1 presale</a>
     <div class="waitlist" style="margin-top:44px">
-      <p style="font-size:15px">Or join the waitlist for launch updates:</p>
-      <button class="btn" type="button" data-tally-open="gbjrPO" data-tally-layout="modal" data-tally-hide-title="1">Notify me</button>
+      <p style="font-size:15px">Or join the waitlist for launch updates. This does not start the free tier — that tier is planned, not open.</p>
+      <button class="btn" id="waitlist-cta-tally" type="button" data-tally-open="gbjrPO" data-tally-layout="modal" data-tally-hide-title="1">Join the waitlist</button>
     </div>
   </div>
 </section>
@@ -337,5 +355,11 @@ document.querySelectorAll('.qa button').forEach(function(btn){
   });
 });
 </script>
+<!--
+  Cloudflare Web Analytics beacon. Leave this commented out.
+  Preferred setup is the Pages dashboard (Workers & Pages, your project, Metrics, Enable under Web Analytics). That injects the beacon with no token in this repo.
+  Manual snippet only: replace YOUR_CLOUDFLARE_WEB_ANALYTICS_TOKEN with the real token from the dashboard, then remove this comment. A placeholder token collects nothing.
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CLOUDFLARE_WEB_ANALYTICS_TOKEN"}'></script>
+-->
 </body>
 </html>
